@@ -10,8 +10,12 @@ const GoalInput = props => {
     };
 
     const onPressButtonHandler = () =>{
-      props.onAddGoalEvent(enteredGoal);
-      setEnteredGoal('');
+      if(enteredGoal.length === 0){
+        console.log("Empty GOAL!!! Please Enter a Goal First.");      
+      } else {
+        props.onAddGoalEvent(enteredGoal);
+        setEnteredGoal('');
+      }
     };
 
     return(

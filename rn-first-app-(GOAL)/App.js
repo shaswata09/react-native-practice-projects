@@ -12,19 +12,17 @@ export default function App() {
   };
 
   const [enteredGoalsList, setEnteredGoalToList] = useState([]); 
-  const addGoalHandler = (enteredGoal) => {
-    setIsAddMode(false);
+  const addGoalHandler = enteredGoal => {    
     enteredGoal = enteredGoal.trim();
-    if(enteredGoal.length === 0){
-      console.log("Empty GOAL!!! Please Enter a Goal First.");
-    } else if (!checkIfGoalIsPresent(enteredGoalsList, enteredGoal)) {
+    if (!checkIfGoalIsPresent(enteredGoalsList, enteredGoal)) {
       setEnteredGoalToList(currentGoalsList => [...currentGoalsList, 
         {id: enteredGoal, value: enteredGoal}
       ]);      
       console.log("\""+enteredGoal + "\" as Goal Successfully added.");
     } else {
       console.log("ERROR! Duplicate Goal inserted! Please add a new Goal to add.");
-    }    
+    }
+    setIsAddMode(false);    
   };
   
   const checkIfGoalIsPresent = (goalListArray, insertingGoal) => {
