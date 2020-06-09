@@ -74,7 +74,7 @@ const GameScreen = (props) => {
     return (
         <View style={styles.screen}>
             <TitleText style={styles.gameScreenTitleText}>
-                Opponents Guess:
+                Opponent's Guess:
             </TitleText>
             <NumberContainer>{currentGuess}</NumberContainer>
             <Card style={styles.buttonContainer}>
