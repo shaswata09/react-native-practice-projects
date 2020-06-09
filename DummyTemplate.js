@@ -1,7 +1,13 @@
 import React from "react";
-import { view, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
-const TemplateName = (props) => {};
+const TemplateName = (props) => {
+    return (
+        <View>
+            <Text>Dummy view</Text>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({});
 
