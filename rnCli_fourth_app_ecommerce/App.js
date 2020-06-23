@@ -7,15 +7,9 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
+import {StyleSheet, Text, View} from 'react-native';
+import {createStore, combineReducers} from 'redux';
+import {Provider} from 'react-redux';
 import {
   Header,
   LearnMoreLinks,
@@ -24,54 +18,25 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
+import productsReducer from './store/reducers/products';
+
+const rootReducer = combineReducers({
+  products : productsReducer,
+});
+
+const store = createStore(rootReducer);
+
+
+export default function App(){
   return (
     <>
-      <Text style={styles.sectionDescription}>
-        Edit <Text style={styles.highlight}>App.js</Text> to change this screen
-        and then come back to see your edits.
-      </Text>
+      <Provider store={store}>
+        <View>
+          <Text>Hei there...</Text>
+        </View>
+      </Provider>
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
-
-export default App;
+const styles = StyleSheet.create({});
