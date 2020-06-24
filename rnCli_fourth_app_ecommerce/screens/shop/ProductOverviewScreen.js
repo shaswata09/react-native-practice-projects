@@ -12,10 +12,18 @@ const ProductOverviewScreen = props => {
             data={products}
             renderItem={itemData => {
                 return (
-                    <ProductItem 
+                    <ProductItem
                         title={itemData.item.title}
                         price={itemData.item.price}
                         imageURL={itemData.item.imageURL}
+                        onViewDetails={() => {
+                            props.navigation.navigate('ProductDetails', { 
+                                productId: itemData.item.id,
+                                productTitle: itemData.item.title,
+                            });
+                        }}
+                        onAddToCart={() => { }}
+
                     />
                 );
             }}
