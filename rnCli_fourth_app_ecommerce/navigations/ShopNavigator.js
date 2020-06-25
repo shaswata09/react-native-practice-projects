@@ -6,6 +6,9 @@ import Colors from '../constants/Color/Colors'
 
 import ProductOverviewScreen from '../screens/shop/ProductOverviewScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
+import CartScreen from '../screens/shop/CartScreen';
+
+import CustomHeaderButton from '../components/UI/CustomHeaderButton';
 
 const ProductsNavigator = createStackNavigator();
 
@@ -26,14 +29,41 @@ function MyProductStack() {
             <ProductsNavigator.Screen
                 name="ProductOverview"
                 component={ProductOverviewScreen}
-                options={{ title: 'Product Overview' }}
+                options={({ navigation }) => ({
+                    title: 'Product Overview',
+                    headerRight: () => {
+                        return (
+                            < CustomHeaderButton
+                                name='shopping-cart'
+                                type='font-awesome'
+                                onPress={() => navigation.navigate('Cart',)}
+                            />
+                        );
+                    },
+                })}
             />
             <ProductsNavigator.Screen
                 name="ProductDetails"
                 component={ProductDetailsScreen}
-                options={({ route }) => ({ title: route.params.productTitle })}
+                options={({ navigation, route }) => ({
+                    title: route.params.productTitle,
+                    headerRight: () => {
+                        return (
+                            < CustomHeaderButton
+                                name='shopping-cart'
+                                type='font-awesome'
+                                onPress={() => navigation.navigate('Cart',)}
+                            />
+                        );
+                    },
+                })}
             />
-        </ProductsNavigator.Navigator>
+            <ProductsNavigator.Screen
+                name="Cart"
+                component={CartScreen}
+                options={{ title: 'Cart' }}
+            />
+        </ProductsNavigator.Navigator >
     );
 }
 

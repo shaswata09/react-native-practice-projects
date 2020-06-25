@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text, Button, Image } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { ScrollView } from "react-native-gesture-handler";
+import { Icon } from 'react-native-elements'
 
 import * as CartActions from '../../store/actions/cart';
 import Colors from "../../constants/Color/Colors";
@@ -21,9 +22,9 @@ const ProductDetailsScreen = (props) => {
                 <Image style={styles.image} source={{ uri: selectedProduct.imageURL }} />
             </View>
             <View style={styles.actionContainer}>
-                <Button 
-                    color={Colors.Primary} 
-                    style={styles.addToCartButton} 
+                <Button
+                    color={Colors.Primary}
+                    style={styles.addToCartButton}
                     title='Add to Cart'
                     onPress={() => {
                         dispatch(CartActions.addToCart(selectedProduct));
