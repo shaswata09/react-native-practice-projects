@@ -60,11 +60,13 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 18,
-        marginVertical: 4,
+        marginVertical: 2,
+        fontFamily: 'OpenSans-Bold',
     },
     price: {
         fontSize: 16,
         color: '#888',
+        fontFamily: 'OpenSans-Regular',
     },
     actions: {
         flexDirection: 'row',

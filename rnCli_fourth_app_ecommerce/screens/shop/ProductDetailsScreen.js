@@ -28,7 +28,7 @@ const ProductDetailsScreen = (props) => {
 
 const styles = StyleSheet.create({
     imageContainer: {
-        padding: 10,        
+        padding: 10,
         overflow: 'hidden',
     },
     image: {
@@ -47,11 +47,13 @@ const styles = StyleSheet.create({
         color: '#888',
         textAlign: 'center',
         marginVertical: 20,
+        fontFamily: 'OpenSans-Bold',
     },
     descriptionText: {
         fontSize: 16,
         textAlign: 'center',
-        marginHorizontal: 20,
+        marginHorizontal: 15,
+        fontFamily: 'OpenSans-Regular',
     },
 });
 

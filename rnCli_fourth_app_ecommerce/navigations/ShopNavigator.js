@@ -15,6 +15,12 @@ function MyProductStack() {
             headerStyle: {
                 backgroundColor: Colors.Primary,
             },
+            headerTitleStyle: {
+                fontFamily: 'OpenSans-Bold',
+            },
+            headerBackTitleStyle: {
+                fontFamily: 'OpenSans-Regular',
+            },
             headerTintColor: 'white',
         }}>
             <ProductsNavigator.Screen
