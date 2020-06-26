@@ -1,8 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import { useSelector } from 'react-redux';
 
 import Colors from "../../constants/Color/Colors";
+import CartItem from '../../components/shop/CartItem';
 
 const CartScreen = (props) => {
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
@@ -24,17 +26,25 @@ const CartScreen = (props) => {
         <View style={styles.screenContainer}>
             <View style={styles.summaryContainer}>
                 <Text style={styles.summaryText}>
-                    Total:<Text style={styles.totalAmountText}>₹{cartTotalAmount.toFixed(2)}</Text>
+                    Total: <Text style={styles.totalAmountText}>₹ {cartTotalAmount.toFixed(2)}</Text>
                 </Text>
-                <Button 
-                    color={Colors.Secondary} 
-                    style={styles.checkoutButton} 
+                <Button
+                    color={Colors.Secondary}
+                    style={styles.checkoutButton}
                     title="Checkout"
                     disabled={cartItems.length === 0} />
             </View>
-            <View style={styles.orderDetailsContainer}>
-                <Text>Dummy view</Text>
-            </View>
+            <FlatList
+                data={cartItems}
+                keyExtractor={item => item.productId}
+                renderItem={itemData => 
+                <CartItem 
+                    quantity={itemData.item.quantity}
+                    title={itemData.item.productTitle}
+                    amount={itemData.item.sum}
+                    onRemove={() => {console.log('deleted')}}
+                />}
+            />
         </View>
     );
 };
@@ -67,7 +77,6 @@ const styles = StyleSheet.create({
         color: Colors.Primary,
     },
     checkoutButton: {},
-    orderDetailsContainer: {},
 });
 
 export default CartScreen;
