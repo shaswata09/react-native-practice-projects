@@ -13,11 +13,13 @@ import { Provider } from 'react-redux';
 
 import productsReducer from './store/reducers/products';
 import cartReducer from './store/reducers/cart';
-import ShopNavigator from './navigations/ShopNavigator'
+import orderReducer from './store/reducers/orders';
+import ShopNavigator from './navigations/ShopNavigator';
 
 const rootReducer = combineReducers({
   products: productsReducer,
   cart: cartReducer,
+  order: orderReducer,
 });
 
 const store = createStore(rootReducer);

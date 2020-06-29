@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Colors from "../../constants/Color/Colors";
 import CartItem from '../../components/shop/CartItem';
 import * as CartActions from '../../store/actions/cart';
-import { abs } from "react-native-reanimated";
+import * as OrderAcrtions from '../../store/actions/orders'
 
 const CartScreen = (props) => {
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
@@ -37,7 +37,11 @@ const CartScreen = (props) => {
                     color={Colors.Secondary}
                     style={styles.checkoutButton}
                     title="Checkout"
-                    disabled={cartItems.length === 0} />
+                    disabled={cartItems.length === 0}
+                    onPress={() => {
+                        dispatch(OrderAcrtions.addOrder(cartItems, cartTotalAmount));
+                    }}
+                />
             </View>
             <FlatList
                 data={cartItems}
