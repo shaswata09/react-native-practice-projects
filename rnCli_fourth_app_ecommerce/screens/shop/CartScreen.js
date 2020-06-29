@@ -1,10 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Colors from "../../constants/Color/Colors";
 import CartItem from '../../components/shop/CartItem';
+import * as CartActions from '../../store/actions/cart';
+import { abs } from "react-native-reanimated";
 
 const CartScreen = (props) => {
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
@@ -19,14 +21,17 @@ const CartScreen = (props) => {
                 sum: state.cart.items[key].sum,
             });
         }
-        return transformedCartItems;
+        return transformedCartItems.sort((a, b) => a.productId > b.productId ? 1 : -1);
     });
+
+    const dispatch = useDispatch();
+    let finalCartAmount = cartTotalAmount.toFixed(2)
 
     return (
         <View style={styles.screenContainer}>
             <View style={styles.summaryContainer}>
                 <Text style={styles.summaryText}>
-                    Total: <Text style={styles.totalAmountText}>₹ {cartTotalAmount.toFixed(2)}</Text>
+                    Total: <Text style={styles.totalAmountText}>₹ {finalCartAmount}</Text>
                 </Text>
                 <Button
                     color={Colors.Secondary}
@@ -37,13 +42,15 @@ const CartScreen = (props) => {
             <FlatList
                 data={cartItems}
                 keyExtractor={item => item.productId}
-                renderItem={itemData => 
-                <CartItem 
-                    quantity={itemData.item.quantity}
-                    title={itemData.item.productTitle}
-                    amount={itemData.item.sum}
-                    onRemove={() => {console.log('deleted')}}
-                />}
+                renderItem={itemData =>
+                    <CartItem
+                        quantity={itemData.item.quantity}
+                        title={itemData.item.productTitle}
+                        amount={itemData.item.sum}
+                        onRemove={() => {
+                            dispatch(CartActions.removeFromCart(itemData.item.productId));
+                        }}
+                    />}
             />
         </View>
     );
