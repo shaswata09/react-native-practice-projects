@@ -8,6 +8,7 @@ import Colors from '../constants/Color/Colors';
 import ProductOverviewScreen from '../screens/shop/ProductOverviewScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
+import UserProductsScreen from '../screens/user/UserProductsScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 
 import CustomHeaderButton from '../components/UI/CustomHeaderButton';
@@ -15,17 +16,9 @@ import { Icon } from 'react-native-elements';
 
 const ProductsNavigator = createStackNavigator();
 const OrdersNavigator = createStackNavigator();
+const userProductsNavigator = createStackNavigator();
 const ShopDrawerNavigator = createDrawerNavigator();
 
-const drawerToggleIconContainer = ({navigation}) => {
-    return (
-        < CustomHeaderButton
-            name='bars'
-            type='font-awesome'
-            onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-        />
-    );
-};
 
 function MyProductStack() {
     return (
@@ -157,6 +150,43 @@ function MyOrdersStack() {
     );
 }
 
+function MyUserProductsStack() {
+    return (
+        <userProductsNavigator.Navigator 
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: Colors.Primary,
+                },
+                headerTitleStyle: {
+                    fontFamily: 'OpenSans-Bold',
+                },
+                headerBackTitleStyle: {
+                    fontFamily: 'OpenSans-Regular',
+                },
+                headerTintColor: 'white',
+            }}
+            drawerToggleIconContainer
+        >
+            <userProductsNavigator.Screen
+                name="UserProducts"
+                component={UserProductsScreen}
+                options={({ navigation }) => ({
+                    title: 'Your Products',
+                    headerLeft: () => {
+                        return (
+                            < CustomHeaderButton
+                                name='bars'
+                                type='font-awesome'
+                                onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+                            />
+                        );
+                    },                    
+                })}
+            />
+        </userProductsNavigator.Navigator>
+    );
+}
+
 function ShopDrawer() {
     return (
         <ShopDrawerNavigator.Navigator
@@ -182,6 +212,18 @@ function ShopDrawer() {
                 options={{
                     drawerIcon: () => <Icon
                         name='tag'
+                        type='evilicon'
+                        color='#517fa4'
+                        size={30}
+                    />
+                }}
+            />
+            <ShopDrawerNavigator.Screen
+                name="Admin"
+                component={MyUserProductsStack}
+                options={{
+                    drawerIcon: () => <Icon
+                        name='eye'
                         type='evilicon'
                         color='#517fa4'
                         size={30}
