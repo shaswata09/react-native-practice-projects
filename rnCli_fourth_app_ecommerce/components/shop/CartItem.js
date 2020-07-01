@@ -13,6 +13,7 @@ const CartItem = (props) => {
             </Text>
             <View style={styles.itemData}>
                 <Text style={styles.mainText}>{props.amount.toFixed(2)}</Text>
+                {props.deletable && 
                 <View style={styles.deleteButton}>
                     <Icon
                         {...props}
@@ -22,7 +23,7 @@ const CartItem = (props) => {
                         type='font-awesome'
                         onPress={() => props.onRemove()}
                     />
-                </View>
+                </View>}
             </View>
         </View>
     );

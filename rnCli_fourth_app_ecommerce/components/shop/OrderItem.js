@@ -17,10 +17,10 @@ const OrderItem = props => {
         color={Colors.Primary}
         title={showDetails ? 'Hide Details' : 'Show Details'}
         onPress={() => {
-        //   setShowDetails(prevState => !prevState);
+          setShowDetails(prevState => !prevState);
         }}
       />
-      {/* {showDetails && (
+      {showDetails && (
         <View style={styles.detailItems}>
           {props.items.map(cartItem => (
             <CartItem
@@ -31,7 +31,7 @@ const OrderItem = props => {
             />
           ))}
         </View>
-      )} */}
+      )}
     </View>
   );
 };
@@ -45,7 +45,9 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
     backgroundColor: 'white',
-    margin: 20,
+    marginHorizontal: 20,
+    marginTop:20,
+    marginBottom: 5,
     padding: 10,
     alignItems: 'center'
   },
