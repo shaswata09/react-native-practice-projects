@@ -1,6 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, Button, Image, TouchableOpacity, TouchableNativeFeedback, Platform } from "react-native";
-import Colors from "../../constants/Color/Colors";
+import { View, StyleSheet, Text, Image, TouchableOpacity, TouchableNativeFeedback, Platform } from "react-native";
 
 const ProductItem = (props) => {
     let TouchableComponent = TouchableOpacity;
@@ -11,7 +10,7 @@ const ProductItem = (props) => {
     return (
         <View style={styles.product}>
             <View style={styles.touchableContainer}>
-                <TouchableComponent onPress={props.onViewDetails} useForeground>
+                <TouchableComponent onPress={props.onSelect} useForeground>
                     <View>
                         <View style={styles.imageContainer}>
                             <Image style={styles.image} source={{ uri: props.imageURL }} />
@@ -20,10 +19,7 @@ const ProductItem = (props) => {
                             <Text style={styles.title}>{props.title}</Text>
                             <Text style={styles.price}>₹{props.price.toFixed(2)}</Text>
                         </View>
-                        <View style={styles.actions}>
-                            <Button color={Colors.Primary} title='Details' onPress={props.onViewDetails} />
-                            <Button color={Colors.Primary} title='Add to Cart' onPress={props.onAddToCart} />
-                        </View>
+                        {props.children}
                     </View>
                 </TouchableComponent>
             </View>
@@ -67,12 +63,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#888',
         fontFamily: 'OpenSans-Regular',
-    },
-    actions: {
-        flexDirection: 'row',
-        justifyContent: "space-between",
-        alignItems: 'center',
-        paddingHorizontal: 10,
     },
     details: {
         alignItems: 'center',
