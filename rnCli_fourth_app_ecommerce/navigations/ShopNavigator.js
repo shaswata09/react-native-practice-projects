@@ -9,6 +9,7 @@ import ProductOverviewScreen from '../screens/shop/ProductOverviewScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
+import EditProductScreen from '../screens/user/EditProductScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
 
 import CustomHeaderButton from '../components/UI/CustomHeaderButton';
@@ -170,7 +171,7 @@ function MyUserProductsStack() {
             <userProductsNavigator.Screen
                 name="UserProducts"
                 component={UserProductsScreen}
-                options={({ navigation }) => ({
+                options={({ navigation, route }) => ({
                     title: 'Your Products',
                     headerLeft: () => {
                         return (
@@ -180,7 +181,25 @@ function MyUserProductsStack() {
                                 onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
                             />
                         );
-                    },                    
+                    },
+                    headerRight: () => {
+                        return (
+                            < CustomHeaderButton
+                                name='plus'
+                                type='font-awesome'
+                                onPress={() => navigation.navigate('EditUserProduct', {
+                                    
+                                })}
+                            />
+                        );
+                    },                      
+                })}
+            />
+            <userProductsNavigator.Screen
+                name="EditUserProduct"
+                component={EditProductScreen}
+                options={({ navigation, route }) => ({
+                    title: "Edit "+route.params.productTitle,        
                 })}
             />
         </userProductsNavigator.Navigator>

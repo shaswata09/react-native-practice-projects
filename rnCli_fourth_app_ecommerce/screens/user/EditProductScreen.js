@@ -4,7 +4,7 @@ import { View, StyleSheet, Text } from "react-native";
 const EditProductScreen = (props) => {
     return (
         <View>
-            <Text>Dummy view</Text>
+            <Text>Edit Product Screen.</Text>
         </View>
     );
 };
