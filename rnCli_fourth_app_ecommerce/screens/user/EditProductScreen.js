@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
@@ -13,16 +13,15 @@ const EditProductScreen = (props) => {
     const [imageUrl, setImageUrl] = useState(editedProduct ? editedProduct.imageURL : '');
     const [price, setPrice] = useState(editedProduct ? editedProduct.price : '');
     const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
+        
+    const submitHandler = useCallback(() => {
+        console.log("Submitted")
+    }, []);
 
+    useEffect(() => {
+        props.navigation.setParams({ submit: submitHandler})
+    }, [submitHandler]);
 
-
-
-
-    if (prodId) {
-
-    } else {
-
-    }
 
     return (
         <ScrollView>

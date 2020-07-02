@@ -205,7 +205,7 @@ function MyUserProductsStack() {
                             < CustomHeaderButton
                                 name='save'
                                 type='font-awesome'
-                                onPress={() => {}}
+                                onPress={route.params.submit}
                             />
                         );
                     },
