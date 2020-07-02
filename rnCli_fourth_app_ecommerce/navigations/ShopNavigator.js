@@ -88,7 +88,7 @@ function MyProductStack() {
             <ProductsNavigator.Screen
                 name="Cart"
                 component={CartScreen}
-                options={({navigation})=> ({
+                options={({ navigation }) => ({
                     title: 'Cart',
                     headerLeft: () => {
                         return (
@@ -107,7 +107,7 @@ function MyProductStack() {
 
 function MyOrdersStack() {
     return (
-        <OrdersNavigator.Navigator 
+        <OrdersNavigator.Navigator
             screenOptions={{
                 headerStyle: {
                     backgroundColor: Colors.Primary,
@@ -144,7 +144,7 @@ function MyOrdersStack() {
                                 onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
                             />
                         );
-                    },                    
+                    },
                 })}
             />
         </OrdersNavigator.Navigator>
@@ -153,7 +153,7 @@ function MyOrdersStack() {
 
 function MyUserProductsStack() {
     return (
-        <userProductsNavigator.Navigator 
+        <userProductsNavigator.Navigator
             screenOptions={{
                 headerStyle: {
                     backgroundColor: Colors.Primary,
@@ -187,19 +187,28 @@ function MyUserProductsStack() {
                             < CustomHeaderButton
                                 name='plus'
                                 type='font-awesome'
-                                onPress={() => navigation.navigate('EditUserProduct', {
-                                    
-                                })}
+                                onPress={() => navigation.navigate('EditUserProduct', {})}
                             />
                         );
-                    },                      
+                    },
                 })}
             />
             <userProductsNavigator.Screen
                 name="EditUserProduct"
                 component={EditProductScreen}
                 options={({ navigation, route }) => ({
-                    title: "Edit "+route.params.productTitle,        
+                    title: route.params.productTitle ?
+                        "Edit " + route.params.productTitle :
+                        "Add Product",
+                    headerRight: () => {
+                        return (
+                            < CustomHeaderButton
+                                name='save'
+                                type='font-awesome'
+                                onPress={() => {}}
+                            />
+                        );
+                    },
                 })}
             />
         </userProductsNavigator.Navigator>
