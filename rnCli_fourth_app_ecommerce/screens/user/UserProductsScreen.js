@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Button, Alert } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -18,6 +18,17 @@ const UserProductsScreen = (props) => {
         })
     };
 
+    const deleteProductHandler = (id) => {
+        Alert.alert("Are you sure?", "Do you really want to delete this item?", [
+            { text: "No", style: "default" },
+            {
+                text: "Yes", style: "destructive", onPress: () => {
+                    dispatch(ProductActions.deleteProduct(id));
+                }
+            }
+        ])
+    };
+
     return (
         <FlatList
             data={userProducts}
@@ -27,20 +38,18 @@ const UserProductsScreen = (props) => {
                     title={itemData.item.title}
                     price={itemData.item.price}
                     imageURL={itemData.item.imageURL}
-                    onSelect={() => { 
+                    onSelect={() => {
                         editProductHandler(itemData.item.id, itemData.item.title)
                     }}
                 >
                     <View style={styles.actions}>
                         <Button color={Colors.Primary} title='Edit'
-                            onPress={() => { 
-                                editProductHandler(itemData.item.id, itemData.item.title) 
+                            onPress={() => {
+                                editProductHandler(itemData.item.id, itemData.item.title)
                             }}
                         />
                         <Button color={Colors.Primary} title='Delete'
-                            onPress={() => {
-                                dispatch(ProductActions.deleteProduct(itemData.item.id));
-                            }}
+                            onPress={deleteProductHandler.bind(this, itemData.item.id)}
                         />
                     </View>
                 </ProductItem>

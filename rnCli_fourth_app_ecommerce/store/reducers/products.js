@@ -15,6 +15,9 @@ export default (state = initialState, action) => {
         userProducts: state.userProducts.filter(
           product => product.id !== action.pId
         ),
+        availableProducts: state.availableProducts.filter(
+          product => product.id !== action.pId
+        ),
       };
     case CREATE_PRODUCT:
       const newProduct = new Product(
