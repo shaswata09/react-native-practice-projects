@@ -1,25 +1,42 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { View, StyleSheet, Text, TextInput } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import * as ProductsActions from '../../store/actions/products';
 
 const EditProductScreen = (props) => {
     const prodId = props.route.params.productId;
     const editedProduct = useSelector(
         state => state.products.userProducts.find(prod => prod.id === prodId)
     )
+    const dispatch = useDispatch();
 
     const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
     const [imageUrl, setImageUrl] = useState(editedProduct ? editedProduct.imageURL : '');
     const [price, setPrice] = useState(editedProduct ? editedProduct.price : '');
     const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
-        
+
     const submitHandler = useCallback(() => {
-        console.log("Submitted")
-    }, []);
+        if (editedProduct) {
+            dispatch(ProductsActions.updateProduct(
+                prodId,
+                title,
+                description,
+                imageUrl,
+            ));
+        } else {
+            dispatch(ProductsActions.createProduct(
+                title,
+                description,
+                imageUrl,
+                +price,
+            ));
+        }
+    }, [dispatch, prodId, title, description, imageUrl, price]);
 
     useEffect(() => {
-        props.navigation.setParams({ submit: submitHandler})
+        props.navigation.setParams({ submit: submitHandler })
     }, [submitHandler]);
 
 
