@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     errorText: {
-        fontFamily: 'open-sans',
+        fontFamily: 'OpenSans-Regular',
         color: 'red',
         fontSize: 13
     },

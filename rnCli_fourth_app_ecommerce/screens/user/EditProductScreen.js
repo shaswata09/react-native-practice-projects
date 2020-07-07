@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useReducer } from "react";
-import { View, StyleSheet, Text, TextInput, Alert } from "react-native";
+import { View, StyleSheet, Alert, KeyboardAvoidingView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -92,59 +92,65 @@ const EditProductScreen = (props) => {
 
 
     return (
-        <ScrollView>
-            <View style={styles.form}>
-                <Input
-                    id='title'
-                    label='Title'
-                    errorText="Please enter a title!"
-                    keyboardType='default'
-                    autoCapitalize='sentences'
-                    returnKeyType='next'
-                    onInputChange={inputChangeHandler}
-                    initialValue={editedProduct ? editedProduct.title : ''}
-                    initiallyValid={!!editedProduct}
-                    required
-                />
-                <Input
-                    id='imageUrl'
-                    label='Image URL'
-                    errorText="Please enter an Image URL!"
-                    keyboardType='default'
-                    returnKeyType='next'
-                    onInputChange={inputChangeHandler}
-                    initialValue={editedProduct ? editedProduct.imageURL : ''}
-                    initiallyValid={!!editedProduct}
-                    required
-                />
-                {editedProduct ? null : (
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior="padding"
+            keyboardVerticalOffset={50}
+        >
+            <ScrollView>
+                <View style={styles.form}>
                     <Input
-                        id='price'
-                        label='Price'
-                        errorText="Please enter a valid Price!"
-                        keyboardType='decimal-pad'
+                        id='title'
+                        label='Title'
+                        errorText="Please enter a title!"
+                        keyboardType='default'
+                        autoCapitalize='sentences'
                         returnKeyType='next'
                         onInputChange={inputChangeHandler}
+                        initialValue={editedProduct ? editedProduct.title : ''}
+                        initiallyValid={!!editedProduct}
                         required
-                        min={0.1}
-                    />)
-                }
-                <Input
-                    id='description'
-                    label='Description'
-                    errorText="Please enter a Description!"
-                    keyboardType='default'
-                    autoCapitalize='sentences'
-                    onInputChange={inputChangeHandler}
-                    multiline
-                    numberOfLines={3}
-                    initialValue={editedProduct ? editedProduct.description : ''}
-                    initiallyValid={!!editedProduct}
-                    required
-                    minLength={5}
-                />
-            </View>
-        </ScrollView>
+                    />
+                    <Input
+                        id='imageUrl'
+                        label='Image URL'
+                        errorText="Please enter an Image URL!"
+                        keyboardType='default'
+                        returnKeyType='next'
+                        onInputChange={inputChangeHandler}
+                        initialValue={editedProduct ? editedProduct.imageURL : ''}
+                        initiallyValid={!!editedProduct}
+                        required
+                    />
+                    {editedProduct ? null : (
+                        <Input
+                            id='price'
+                            label='Price'
+                            errorText="Please enter a valid Price!"
+                            keyboardType='decimal-pad'
+                            returnKeyType='next'
+                            onInputChange={inputChangeHandler}
+                            required
+                            min={0.1}
+                        />)
+                    }
+                    <Input
+                        id='description'
+                        label='Description'
+                        errorText="Please enter a Description!"
+                        keyboardType='default'
+                        autoCapitalize='sentences'
+                        onInputChange={inputChangeHandler}
+                        multiline
+                        numberOfLines={3}
+                        initialValue={editedProduct ? editedProduct.description : ''}
+                        initiallyValid={!!editedProduct}
+                        required
+                        minLength={5}
+                    />
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 };
 
