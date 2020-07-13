@@ -1,5 +1,10 @@
 import PRODUCTS from '../../data/dummy-data.js';
-import { DELETE_PRODUCT, CREATE_PRODUCT, UPDATE_PRODUCT } from '../actions/products';
+import {
+  DELETE_PRODUCT,
+  CREATE_PRODUCT,
+  UPDATE_PRODUCT,
+  SET_PRODUCT
+} from '../actions/products';
 import Product from '../../models/product.js';
 
 const initialState = {
@@ -9,6 +14,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_PRODUCT:
+      return {
+        ...state,
+        availableProducts: state.availableProducts.concat(action.products),
+        userProducts: state.userProducts.concat(action.products)
+      };
     case DELETE_PRODUCT:
       return {
         ...state,
