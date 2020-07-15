@@ -17,8 +17,8 @@ export default (state = initialState, action) => {
     case SET_PRODUCT:
       return {
         ...state,
-        availableProducts: state.availableProducts.concat(action.products),
-        userProducts: state.userProducts.concat(action.products)
+        availableProducts: action.products,
+        userProducts: action.products.filter(prod => prod.ownerId === 'u1')
       };
     case DELETE_PRODUCT:
       return {

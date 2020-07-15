@@ -7,27 +7,33 @@ export const SET_PRODUCT = 'SET_PRODUCT';
 
 export const fetchProducts = () => {
     return async dispatch => {
-        const response = await fetch(
-            'https://rn-practice-ecommerce.firebaseio.com/products.json'
-        );
-
-        const resData = await response.json();
-        const loadedProducts = [];
-        for (const key in resData) {
-            loadedProducts.push(new Product(
-                key,
-                'u1',
-                resData[key].title,
-                resData[key].imageUrl,
-                resData[key].description,
-                resData[key].price)
+        try {
+            const response = await fetch(
+                'https://rn-practice-ecommerce.firebaseio.com/products.json'
             );
-        }
+            const resData = await response.json();
+            // console.log(resData);
+            const loadedProducts = [];
+            for (const key in resData) {
+                loadedProducts.push(new Product(
+                    key,
+                    'u1',
+                    resData[key].title,
+                    resData[key].imageUrl,
+                    resData[key].description,
+                    resData[key].price)
+                );
+            }
 
-        dispatch({
-            type: SET_PRODUCT,
-            products: loadedProducts
-        });
+            dispatch({
+                type: SET_PRODUCT,
+                products: loadedProducts
+            });
+        } catch (err) {
+            // send some analytics or crashlytics event here later
+            console.log("Error occured while fetching data from firebase.---", err.message);
+            throw err;
+        }
     }
 };
 
@@ -51,7 +57,7 @@ export const createProduct = (title, description, imageUrl, price) => {
         });
 
         const resData = await response.json();
-        console.log(resData);
+        // console.log(resData);
 
         dispatch({
             type: CREATE_PRODUCT,
