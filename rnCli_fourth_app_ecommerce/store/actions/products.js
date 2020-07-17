@@ -39,70 +39,93 @@ export const fetchProducts = () => {
 
 export const deleteProduct = productId => {
     return async dispatch => {
-        await fetch(`https://rn-practice-ecommerce.firebaseio.com/products/${productId}.json`, {
-            method: 'DELETE',
-        });
+        try {
+            const response = await fetch(`https://rn-practice-ecommerce.firebaseio.com/products/${productId}.json`, {
+                method: 'DELETE',
+            });
 
-        dispatch({ 
-            type: DELETE_PRODUCT,
-            pId: productId 
-        });
+            if (!response.ok) {
+                throw new Error("Error occured! Response code: " + response.status);
+            }
+
+            dispatch({
+                type: DELETE_PRODUCT,
+                pId: productId
+            });
+        } catch (err) {
+            console.log("Error occured while deleting data at firebase.---", err.message);
+            throw err;
+        }
     };
 };
 
 export const createProduct = (title, description, imageUrl, price) => {
     return async dispatch => {
-        const response = await fetch('https://rn-practice-ecommerce.firebaseio.com/products.json', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title,
-                description,
-                imageUrl,
-                price
-            })
-        });
+        try {
+            const response = await fetch('https://rn-practice-ecommerce.firebaseio.com/products.json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title,
+                    description,
+                    imageUrl,
+                    price
+                })
+            });
 
-        const resData = await response.json();
-        // console.log(resData);
+            const resData = await response.json();
+            // console.log(resData);
 
-        dispatch({
-            type: CREATE_PRODUCT,
-            productData: {
-                id: resData.name,
-                title,
-                description,
-                imageUrl,
-                price,
-            }
-        });
+            dispatch({
+                type: CREATE_PRODUCT,
+                productData: {
+                    id: resData.name,
+                    title,
+                    description,
+                    imageUrl,
+                    price,
+                }
+            });
+        } catch (err) {
+            console.log("Error occured while creating data at firebase.---", err.message);
+            throw err;
+        }
     }
 };
 
 export const updateProduct = (id, title, description, imageUrl) => {
     return async dispatch => {
-        await fetch(`https://rn-practice-ecommerce.firebaseio.com/products/${id}.json`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                title,
-                description,
-                imageUrl,
-            })
-        });
+        try {
+            const response = await fetch(`https://rn-practice-ecommerce.firebaseio.com/products/${id}.json`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title,
+                    description,
+                    imageUrl,
+                })
+            });
 
-        dispatch({
-            type: UPDATE_PRODUCT,
-            pId: id,
-            productData: {
-                title,
-                description,
-                imageUrl,
+            if (!response.ok) {
+                throw new Error("Error occured! Response code: " + response.status);
             }
-        });
+
+            dispatch({
+                type: UPDATE_PRODUCT,
+                pId: id,
+                productData: {
+                    title,
+                    description,
+                    imageUrl,
+                }
+            });
+        } catch (err) {
+            console.log("Error occured while updating data at firebase.---", err.message);
+            throw err;
+        }
     }
 };
