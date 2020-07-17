@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Text, Button, ActivityIndicator, Alert } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -11,6 +11,9 @@ import Card from '../../components/UI/Card';
 
 
 const CartScreen = (props) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     const cartItems = useSelector(state => {
         let transformedCartItems = [];
@@ -27,6 +30,20 @@ const CartScreen = (props) => {
     });
 
     const dispatch = useDispatch();
+    const sendOrderHandler = async () => {
+        setIsLoading(true);
+        dispatch(
+            OrderAcrtions.addOrder(cartItems, cartTotalAmount)
+        ).then(() => {
+            setIsLoading(false);
+            Alert.alert("Order successfully placed :)", error, [{ text: 'Okay' }]);
+            props.navigation.goBack();
+        }).catch((err) => {
+            setIsLoading(false);
+            setError(err)
+        });
+    };
+
     let finalCartAmount = cartTotalAmount.toFixed(2)
 
     return (
@@ -35,15 +52,22 @@ const CartScreen = (props) => {
                 <Text style={styles.summaryText}>
                     Total: <Text style={styles.totalAmountText}>₹ {finalCartAmount}</Text>
                 </Text>
-                <Button
-                    color={Colors.Secondary}
-                    style={styles.checkoutButton}
-                    title="Checkout"
-                    disabled={cartItems.length === 0}
-                    onPress={() => {
-                        dispatch(OrderAcrtions.addOrder(cartItems, cartTotalAmount));
-                    }}
-                />
+                {isLoading ?
+                    (<ActivityIndicator
+                        size='small' color={Colors.Primary}
+                    />)
+                    :
+                    (error ?
+                        Alert.alert("Error occured!", error, [{ text: 'Okay' }])
+                        :
+                        <Button
+                            color={Colors.Secondary}
+                            style={styles.checkoutButton}
+                            title="Checkout"
+                            disabled={cartItems.length === 0}
+                            onPress={sendOrderHandler}
+                        />)
+                }
             </Card>
             <FlatList
                 data={cartItems}

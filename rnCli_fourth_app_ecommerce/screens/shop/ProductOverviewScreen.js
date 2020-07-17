@@ -23,7 +23,7 @@ const ProductOverviewScreen = props => {
             setIsLoading(false);
         }).catch((err) => {
             setIsLoading(false);
-            setError(err)
+            setError(err);
         });
     }, [dispatch, setIsLoading, setError]);
 
