@@ -10,27 +10,40 @@ import Colors from "../../constants/Color/Colors";
 
 const ProductOverviewScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
     const [error, setError] = useState();
     const products = useSelector(state => state.products.availableProducts);
     const dispatch = useDispatch();
 
-    const loadProducts = useCallback(() => {
-        setError(null);
+    const refreshProducts = () => {
+        setIsRefreshing(true);
+        loadProducts();
+    };
+
+    const pageChangeLoadProduct = () => {
         setIsLoading(true);
+        loadProducts();
+    };
+
+    const loadProducts = useCallback(async () => {
+        setError(null);
         dispatch(
             productsActions.fetchProducts()
         ).then(() => {
             setIsLoading(false);
+            setIsRefreshing(false);
         }).catch((err) => {
             setIsLoading(false);
+            setIsRefreshing(false);
             setError(err);
+
         });
     }, [dispatch, setIsLoading, setError]);
 
     useEffect(() => {
         const willFocusSub = props.navigation.addListener(
             'focus',
-            loadProducts,
+            pageChangeLoadProduct,
         );
         return () => {
             if (null === willFocusSub) {
@@ -40,7 +53,7 @@ const ProductOverviewScreen = props => {
     }, [loadProducts]);
 
     useEffect(() => {
-        loadProducts();
+        pageChangeLoadProduct();
     }, [dispatch, loadProducts]);
 
     const onItemSelectHandler = (id, title) => {
@@ -74,6 +87,8 @@ const ProductOverviewScreen = props => {
     } else {
         return (
             <FlatList
+                onRefresh={refreshProducts}
+                refreshing={isRefreshing}
                 data={products}
                 renderItem={itemData => {
                     return (
