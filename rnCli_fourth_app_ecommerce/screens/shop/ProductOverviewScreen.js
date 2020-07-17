@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleSheet, FlatList, View, Text, Button, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -6,8 +6,6 @@ import * as CartActions from '../../store/actions/cart';
 import * as productsActions from '../../store/actions/products';
 import ProductItem from '../../components/shop/ProductItem';
 import Colors from "../../constants/Color/Colors";
-import { useEffect } from 'react';
-
 
 
 const ProductOverviewScreen = props => {
@@ -35,7 +33,9 @@ const ProductOverviewScreen = props => {
             loadProducts,
         );
         return () => {
-            willFocusSub.remove();
+            if (null === willFocusSub) {
+                willFocusSub.remove();
+            }
         };
     }, [loadProducts]);
 
