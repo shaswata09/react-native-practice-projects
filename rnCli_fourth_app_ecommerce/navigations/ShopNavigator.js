@@ -11,15 +11,54 @@ import CartScreen from '../screens/shop/CartScreen';
 import UserProductsScreen from '../screens/user/UserProductsScreen';
 import EditProductScreen from '../screens/user/EditProductScreen';
 import OrdersScreen from '../screens/shop/OrdersScreen';
+import AuthScreen from '../screens/user/AuthScreen';
 
 import CustomHeaderButton from '../components/UI/CustomHeaderButton';
 import { Icon } from 'react-native-elements';
+import { createSwitchNavigator } from 'react-navigation';
 
 const ProductsNavigator = createStackNavigator();
 const OrdersNavigator = createStackNavigator();
-const userProductsNavigator = createStackNavigator();
+const UserProductsNavigator = createStackNavigator();
 const ShopDrawerNavigator = createDrawerNavigator();
+const AuthStackNavigator = createStackNavigator();
 
+
+function MainSwitchNavigator() {
+    const isAuthToken = false;
+
+    if (isAuthToken) {
+        return <ShopDrawer />;
+    } else {
+        return <MyAuthStack />;
+    }
+}
+
+function MyAuthStack() {
+    return (
+        <AuthStackNavigator.Navigator screenOptions={{
+            headerStyle: {
+                backgroundColor: Colors.Primary,
+            },
+            headerTitleStyle: {
+                fontFamily: 'OpenSans-Bold',
+            },
+            headerBackTitleStyle: {
+                fontFamily: 'OpenSans-Regular',
+            },
+            headerTintColor: 'white',
+        }}>
+            <AuthStackNavigator.Screen
+                name="AuthScreen"
+                component={AuthScreen}
+                options={({ navigation }) => ({
+                    title: 'Authenticate',
+                    headerTitleAlign: 'center'
+                })}
+            />
+        </AuthStackNavigator.Navigator>
+    );
+}
 
 function MyProductStack() {
     return (
@@ -120,7 +159,6 @@ function MyOrdersStack() {
                 },
                 headerTintColor: 'white',
             }}
-            drawerToggleIconContainer
         >
             <OrdersNavigator.Screen
                 name="Orders"
@@ -153,7 +191,7 @@ function MyOrdersStack() {
 
 function MyUserProductsStack() {
     return (
-        <userProductsNavigator.Navigator
+        <UserProductsNavigator.Navigator
             screenOptions={{
                 headerStyle: {
                     backgroundColor: Colors.Primary,
@@ -166,9 +204,8 @@ function MyUserProductsStack() {
                 },
                 headerTintColor: 'white',
             }}
-            drawerToggleIconContainer
         >
-            <userProductsNavigator.Screen
+            <UserProductsNavigator.Screen
                 name="UserProducts"
                 component={UserProductsScreen}
                 options={({ navigation, route }) => ({
@@ -193,7 +230,7 @@ function MyUserProductsStack() {
                     },
                 })}
             />
-            <userProductsNavigator.Screen
+            <UserProductsNavigator.Screen
                 name="EditUserProduct"
                 component={EditProductScreen}
                 options={({ navigation, route }) => ({
@@ -211,7 +248,7 @@ function MyUserProductsStack() {
                     },
                 })}
             />
-        </userProductsNavigator.Navigator>
+        </UserProductsNavigator.Navigator>
     );
 }
 
@@ -265,7 +302,7 @@ function ShopDrawer() {
 export default () => {
     return (
         <NavigationContainer>
-            <ShopDrawer />
+            <MainSwitchNavigator />
         </NavigationContainer>
     );
 };

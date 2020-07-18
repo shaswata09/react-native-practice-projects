@@ -79,6 +79,8 @@ target 'rnCli_fourth_app_ecommerce' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'rnCli_fourth_app_ecommerceTests' do
     inherit! :complete
     # Pods for testing
