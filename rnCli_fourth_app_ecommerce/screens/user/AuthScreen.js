@@ -1,11 +1,12 @@
-import React, { useState, useReducer, useCallback } from 'react';
+import React, { useState, useEffect, useReducer, useCallback } from 'react';
 import {
     ScrollView,
     View,
-    Text,
     Button,
     KeyboardAvoidingView,
     StyleSheet,
+    ActivityIndicator,
+    Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useDispatch } from 'react-redux';
@@ -42,6 +43,8 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = props => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
     const [isSignUp, setIsSignUp] = useState(false);
     const dispatch = useDispatch();
     const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -56,19 +59,37 @@ const AuthScreen = props => {
         isFormValid: false,
     });
 
-    const authHandler = () => {
+    const authHandler = async () => {
+        let action;
         if (isSignUp) {
-            dispatch(authActions.signUp(
+            action = authActions.signUp(
                 formState.inputValues.email,
                 formState.inputValues.password,
-            ));
+            );
         } else {
-            dispatch(authActions.logIn(
+            action = authActions.logIn(
                 formState.inputValues.email,
                 formState.inputValues.password,
-            ));
+            );
         }
+        setError(null);
+        setIsLoading(true);
+        dispatch(
+            action
+        ).then(() => {
+            setIsLoading(false);
+        }).catch((err) => {
+            setIsLoading(false);
+            setError(err.message);
+        });
     }
+
+    useEffect(() => {
+        if (error) {
+            Alert.alert("Error occured!", error, [
+                { text: 'Okay', style: 'default' }]);
+        }
+    }, [error]);
 
     const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
         dispatchFormState({
@@ -98,6 +119,7 @@ const AuthScreen = props => {
                             errorText="Please enter a valid e-mail address"
                             onInputChange={inputChangeHandler}
                             initialValue=''
+                            editable={!isLoading}
                         />
                         <Input
                             id="password"
@@ -110,17 +132,26 @@ const AuthScreen = props => {
                             errorText="Please enter a valid password"
                             onInputChange={inputChangeHandler}
                             initialValue=''
+                            editable={!isLoading}
                         />
-                        <View style={styles.buttonViewContainer}>
-                            <Button title={isSignUp ? "Sign Up" : "Log In"} color={Colors.Primary} onPress={authHandler} />
-                        </View>
+                        {isLoading ?
+                            <View style={styles.activityIndicatorContainer}>
+                                <ActivityIndicator size='large' color={Colors.Secondary} />
+                            </View>
+                            :
+                            <View style={styles.buttonViewContainer}>
+                                <Button title={isSignUp ? "Sign Up" : "Log In"} color={Colors.Primary} onPress={authHandler} />
+                            </View>
+
+                        }
+
                         <View style={styles.buttonViewContainer}>
                             <Button title={`Switch to ${isSignUp ? "Log In" : "Sign Up"}`} color={Colors.Secondary} onPress={() => setIsSignUp(isSignUp => !isSignUp)} />
                         </View>
                     </ScrollView>
                 </Card>
             </LinearGradient>
-        </KeyboardAvoidingView>
+        </KeyboardAvoidingView >
     );
 };
 
@@ -141,6 +172,10 @@ const styles = StyleSheet.create({
     },
     buttonViewContainer: {
         marginTop: 10
+    },
+    activityIndicatorContainer: {
+        marginTop: 10,
+        backgroundColor: Colors.Primary,
     },
 });
 

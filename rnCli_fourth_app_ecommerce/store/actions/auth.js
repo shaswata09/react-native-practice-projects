@@ -20,17 +20,21 @@ export const signUp = (email, password) => {
             );
 
             const resData = await response.json();
-            console.log(resData);
 
             if (!response.ok) {
-                throw new Error("Error occured! response code :" + response.status);
+                const errorID = resData.error.errors[0].message;
+                let message = "Error Response : "+ errorID;
+                if (errorID === "EMAIL_EXISTS") {
+                    message = "Email already registered.";
+                }
+                throw new Error(message);
             }
 
             dispatch({
                 type: SIGNUP
             })
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            throw err;
         }
     }
 };
@@ -54,17 +58,25 @@ export const logIn = (email, password) => {
             );
 
             const resData = await response.json();
-            console.log(resData);
 
             if (!response.ok) {
-                throw new Error("Error occured! response code :" + response.status);
+                const errorID = resData.error.errors[0].message;
+                let message = "Oops! Something went wrong!";
+                if (errorID === "EMAIL_NOT_FOUND") {
+                    message = "Email not registered.";
+                } else if (errorID === "INVALID_PASSWORD" ) {
+                    message = "Incorrect password.";
+                } else if (errorID === "USER_DISABLED" ) {
+                    message = "User disabled.";
+                }
+                throw new Error(message);
             }
 
             dispatch({
                 type: LOGIN
             })
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            throw err;
         }
     }
 };
