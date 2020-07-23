@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from 'react';
+import React, { useState, useReducer, useCallback } from 'react';
 import {
     ScrollView,
     View,
@@ -42,6 +42,7 @@ const formReducer = (state, action) => {
 };
 
 const AuthScreen = props => {
+    const [isSignUp, setIsSignUp] = useState(false);
     const dispatch = useDispatch();
     const [formState, dispatchFormState] = useReducer(formReducer, {
         inputValues: {
@@ -55,11 +56,18 @@ const AuthScreen = props => {
         isFormValid: false,
     });
 
-    const signUpHandler = () => {
-        dispatch(authActions.signUp(
-            formState.inputValues.email,
-            formState.inputValues.password,
-        ));
+    const authHandler = () => {
+        if (isSignUp) {
+            dispatch(authActions.signUp(
+                formState.inputValues.email,
+                formState.inputValues.password,
+            ));
+        } else {
+            dispatch(authActions.logIn(
+                formState.inputValues.email,
+                formState.inputValues.password,
+            ));
+        }
     }
 
     const inputChangeHandler = useCallback((inputIdentifier, inputValue, inputValidity) => {
@@ -104,10 +112,10 @@ const AuthScreen = props => {
                             initialValue=''
                         />
                         <View style={styles.buttonViewContainer}>
-                            <Button title="Log In" color={Colors.Primary} onPress={signUpHandler} />
+                            <Button title={isSignUp ? "Sign Up" : "Log In"} color={Colors.Primary} onPress={authHandler} />
                         </View>
                         <View style={styles.buttonViewContainer}>
-                            <Button title="Sign Up" color={Colors.Secondary} />
+                            <Button title={`Switch to ${isSignUp ? "Log In" : "Sign Up"}`} color={Colors.Secondary} onPress={() => setIsSignUp(isSignUp => !isSignUp)} />
                         </View>
                     </ScrollView>
                 </Card>
