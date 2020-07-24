@@ -38,9 +38,10 @@ export const getOrders = () => {
 
 export const addOrder = (cartItems, totalAmount) => {
     try {
-        return async dispatch => {
+        return async (dispatch, getState) => {
+            const token = getState().auth.token;
             const date = new Date().toISOString()
-            const response = await fetch('https://rn-practice-ecommerce.firebaseio.com/orders/u1.json', {
+            const response = await fetch(`https://rn-practice-ecommerce.firebaseio.com/orders/u1.json?auth=${token}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

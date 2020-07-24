@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Colors from '../constants/Color/Colors';
 
@@ -15,7 +16,6 @@ import AuthScreen from '../screens/user/AuthScreen';
 
 import CustomHeaderButton from '../components/UI/CustomHeaderButton';
 import { Icon } from 'react-native-elements';
-import { createSwitchNavigator } from 'react-navigation';
 
 const ProductsNavigator = createStackNavigator();
 const OrdersNavigator = createStackNavigator();
@@ -25,7 +25,7 @@ const AuthStackNavigator = createStackNavigator();
 
 
 function MainSwitchNavigator() {
-    const isAuthToken = false;
+    const isAuthToken = useSelector(state => state.auth.isAuthToken);
 
     if (isAuthToken) {
         return <ShopDrawer />;

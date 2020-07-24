@@ -59,7 +59,7 @@ const AuthScreen = props => {
         isFormValid: false,
     });
 
-    const authHandler = async () => {
+    const authHandler = () => {
         let action;
         if (isSignUp) {
             action = authActions.signUp(

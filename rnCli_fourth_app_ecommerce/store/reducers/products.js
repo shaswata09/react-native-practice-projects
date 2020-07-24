@@ -1,4 +1,3 @@
-import PRODUCTS from '../../data/dummy-data.js';
 import {
   DELETE_PRODUCT,
   CREATE_PRODUCT,
