@@ -5,9 +5,10 @@ export const GET_ORDERS = 'GET_ORDERS';
 
 export const getOrders = () => {
     try {
-        return async dispatch => {
+        return async (dispatch, getState) => {
+            const userID = getState().auth.userID;
             const response = await fetch(
-                'https://rn-practice-ecommerce.firebaseio.com/orders/u1.json'
+                `https://rn-practice-ecommerce.firebaseio.com/orders/${userID}.json`
             );
             if (!response.ok) {
                 throw new Error("Error occured! Response code: " + response.status);
@@ -40,8 +41,9 @@ export const addOrder = (cartItems, totalAmount) => {
     try {
         return async (dispatch, getState) => {
             const token = getState().auth.token;
+            const userID = getState().auth.userID;
             const date = new Date().toISOString()
-            const response = await fetch(`https://rn-practice-ecommerce.firebaseio.com/orders/u1.json?auth=${token}`, {
+            const response = await fetch(`https://rn-practice-ecommerce.firebaseio.com/orders/${userID}.json?auth=${token}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

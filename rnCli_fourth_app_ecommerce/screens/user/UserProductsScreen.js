@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Button, Alert, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, Button, Alert, ActivityIndicator } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -54,6 +54,13 @@ const UserProductsScreen = (props) => {
             </View>
         );
     } else {
+        if (userProducts.length === 0) {
+            return (
+                <View  style={styles.centered}>
+                    <Text>No Products found, maybe start creating some?</Text>
+                </View>
+            );
+        }
         return (
             <FlatList
                 data={userProducts}

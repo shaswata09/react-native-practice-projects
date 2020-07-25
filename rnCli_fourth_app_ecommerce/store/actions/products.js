@@ -6,8 +6,9 @@ export const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 export const SET_PRODUCT = 'SET_PRODUCT';
 
 export const fetchProducts = () => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
         try {
+            const userID = getState().auth.userID;
             const response = await fetch(
                 'https://rn-practice-ecommerce.firebaseio.com/products.json'
             );
@@ -17,7 +18,7 @@ export const fetchProducts = () => {
             for (const key in resData) {
                 loadedProducts.push(new Product(
                     key,
-                    'u1',
+                    resData[key].ownerId,
                     resData[key].title,
                     resData[key].imageUrl,
                     resData[key].description,
@@ -27,7 +28,8 @@ export const fetchProducts = () => {
 
             dispatch({
                 type: SET_PRODUCT,
-                products: loadedProducts
+                products: loadedProducts,
+                userProducts: loadedProducts.filter(prod => prod.ownerId === userID)
             });
         } catch (err) {
             // send some analytics or crashlytics event here later
@@ -64,6 +66,7 @@ export const createProduct = (title, description, imageUrl, price) => {
     return async (dispatch, getState) => {
         try {
             const token = getState().auth.token;
+            const userID = getState().auth.userID;
             const response = await fetch(`https://rn-practice-ecommerce.firebaseio.com/products.json?auth=${token}`, {
                 method: 'POST',
                 headers: {
@@ -73,7 +76,8 @@ export const createProduct = (title, description, imageUrl, price) => {
                     title,
                     description,
                     imageUrl,
-                    price
+                    price,
+                    ownerId: userID,
                 })
             });
 
@@ -88,6 +92,7 @@ export const createProduct = (title, description, imageUrl, price) => {
                     description,
                     imageUrl,
                     price,
+                    ownerId: userID,
                 }
             });
         } catch (err) {
