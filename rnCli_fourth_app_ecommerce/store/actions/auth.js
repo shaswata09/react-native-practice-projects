@@ -1,7 +1,17 @@
-export const SIGNUP = "SIGNUP";
-export const LOGIN = "LOGIN";
+import { AsyncStorage } from 'react-native';
+
+// export const SIGNUP = "SIGNUP";
+// export const LOGIN = "LOGIN";
+export const AUTHENTICATE = 'AUTHENTICATE';
 export const TOGGLE_NAVIGATION = 'TOGGLE_NAVIGATION';
-export const SET_STATUS = 'FETCH_STATUS';
+
+export const authenticate = (userID, token) => {
+    return {
+        type: AUTHENTICATE,
+        userID: userID,
+        token: token,
+    };
+};
 
 export const signUp = (email, password) => {
     return async dispatch => {
@@ -33,13 +43,11 @@ export const signUp = (email, password) => {
                 throw new Error(message);
             }
 
-            dispatch({
-                type: SIGNUP,
-                token: resData.idToken,
-                userID: resData.localId,
-                isAuthToken: true,
-                isTouched: true,
-            })
+            dispatch(authenticate(resData.localId, resData.idToken));
+            const expirationTime = new Date(
+                new Date().getTime() + parseInt(resData.expiresIn) * 1000
+            );
+            saveDataToStorage(resData.idToken, resData.localId, expirationTime);
         } catch (err) {
             throw err;
         }
@@ -80,31 +88,23 @@ export const logIn = (email, password) => {
                 throw new Error(message);
             }
 
-            dispatch({
-                type: LOGIN,
-                token: resData.idToken,
-                userID: resData.localId,
-                isAuthToken: true,
-                isTouched: true,
-            })
+            dispatch(authenticate(resData.localId, resData.idToken));
+            const expirationTime = new Date(
+                new Date().getTime() + parseInt(resData.expiresIn) * 1000
+            );
+            saveDataToStorage(resData.idToken, resData.localId, expirationTime);
         } catch (err) {
             throw err;
         }
     }
 };
 
-export const toggleNavigation = () => {
-    return dispatch => {
-        dispatch({
-            type: TOGGLE_NAVIGATION,
-        });
-    }
-};
-
-export const fetchStatus = () => {
-    return dispatch({
-        type: SET_STATUS,
-        isAuthToken: false,
-        isTouched: true,
-    });
+const saveDataToStorage = (token, userID, expirationTime) => {
+    AsyncStorage.setItem('userData', JSON.stringify(
+        {
+            token: token,
+            userID: userID,
+            expirationTime: expirationTime.toISOString(),
+        }
+    ));
 };

@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import Colors from '../constants/Color/Colors';
 
+import SplashScreen from '../screens/SplashScreen';
+
 import ProductOverviewScreen from '../screens/shop/ProductOverviewScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
@@ -36,18 +38,25 @@ function MainSwitchNavigator() {
 
 function MyAuthStack() {
     return (
-        <AuthStackNavigator.Navigator screenOptions={{
-            headerStyle: {
-                backgroundColor: Colors.Primary,
-            },
-            headerTitleStyle: {
-                fontFamily: 'OpenSans-Bold',
-            },
-            headerBackTitleStyle: {
-                fontFamily: 'OpenSans-Regular',
-            },
-            headerTintColor: 'white',
-        }}>
+        <AuthStackNavigator.Navigator
+            initialRouteName="SplashScreen"
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: Colors.Primary,
+                },
+                headerTitleStyle: {
+                    fontFamily: 'OpenSans-Bold',
+                },
+                headerBackTitleStyle: {
+                    fontFamily: 'OpenSans-Regular',
+                },
+                headerTintColor: 'white',
+            }}>
+            <AuthStackNavigator.Screen
+                name="SplashScreen"
+                component={SplashScreen}
+                options={{ headerShown: false }}
+            />
             <AuthStackNavigator.Screen
                 name="AuthScreen"
                 component={AuthScreen}
@@ -62,18 +71,20 @@ function MyAuthStack() {
 
 function MyProductStack() {
     return (
-        <ProductsNavigator.Navigator screenOptions={{
-            headerStyle: {
-                backgroundColor: Colors.Primary,
-            },
-            headerTitleStyle: {
-                fontFamily: 'OpenSans-Bold',
-            },
-            headerBackTitleStyle: {
-                fontFamily: 'OpenSans-Regular',
-            },
-            headerTintColor: 'white',
-        }}>
+        <ProductsNavigator.Navigator
+            initialRouteName="ProductOverview"
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: Colors.Primary,
+                },
+                headerTitleStyle: {
+                    fontFamily: 'OpenSans-Bold',
+                },
+                headerBackTitleStyle: {
+                    fontFamily: 'OpenSans-Regular',
+                },
+                headerTintColor: 'white',
+            }}>
             <ProductsNavigator.Screen
                 name="ProductOverview"
                 component={ProductOverviewScreen}
@@ -147,6 +158,7 @@ function MyProductStack() {
 function MyOrdersStack() {
     return (
         <OrdersNavigator.Navigator
+            initialRouteName="Orders"
             screenOptions={{
                 headerStyle: {
                     backgroundColor: Colors.Primary,
@@ -192,6 +204,7 @@ function MyOrdersStack() {
 function MyUserProductsStack() {
     return (
         <UserProductsNavigator.Navigator
+            initialRouteName="UserProducts"
             screenOptions={{
                 headerStyle: {
                     backgroundColor: Colors.Primary,

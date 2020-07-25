@@ -13,6 +13,7 @@ const ProductOverviewScreen = props => {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [error, setError] = useState();
     const products = useSelector(state => state.products.availableProducts);
+    const isNoProduct = useSelector(state => state.products.isNoProduct);
     const dispatch = useDispatch();
 
     const refreshProducts = () => {
@@ -22,12 +23,13 @@ const ProductOverviewScreen = props => {
 
     const pageChangeLoadProduct = () => {
         setIsLoading(true);
+        setError(null);
         loadProducts();
     };
 
     const loadProducts = useCallback(async () => {
         setError(null);
-        dispatch(
+        await dispatch(
             productsActions.fetchProducts()
         ).then(() => {
             setIsLoading(false);
@@ -36,7 +38,6 @@ const ProductOverviewScreen = props => {
             setIsLoading(false);
             setIsRefreshing(false);
             setError(err);
-
         });
     }, [dispatch, setIsLoading, setError]);
 
@@ -77,7 +78,7 @@ const ProductOverviewScreen = props => {
                 <Button title="Try again" onPress={loadProducts} color={Colors.Primary} />
             </View>
         );
-    } else if (!isLoading && products.length === 0) {
+    } else if (!isLoading && isNoProduct) {
         return (
             <View style={styles.centered}>
                 <Text>No Products found. Maybe start adding some.</Text>

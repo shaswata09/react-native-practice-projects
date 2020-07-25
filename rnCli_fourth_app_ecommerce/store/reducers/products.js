@@ -9,6 +9,7 @@ import Product from '../../models/product.js';
 const initialState = {
   availableProducts: [],
   userProducts: [],
+  isNoProduct: false,
 };
 
 export default (state = initialState, action) => {
@@ -18,6 +19,7 @@ export default (state = initialState, action) => {
         ...state,
         availableProducts: action.products,
         userProducts: action.userProducts,
+        isNoProduct: action.isNoProduct,
       };
     case DELETE_PRODUCT:
       return {

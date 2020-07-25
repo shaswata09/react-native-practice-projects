@@ -29,7 +29,8 @@ export const fetchProducts = () => {
             dispatch({
                 type: SET_PRODUCT,
                 products: loadedProducts,
-                userProducts: loadedProducts.filter(prod => prod.ownerId === userID)
+                userProducts: loadedProducts.filter(prod => prod.ownerId === userID),
+                isNoProduct: loadedProducts.length === 0,
             });
         } catch (err) {
             // send some analytics or crashlytics event here later
