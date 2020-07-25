@@ -1,10 +1,9 @@
-import { AUTHENTICATE } from '../actions/auth';
+import { AUTHENTICATE, LOGOUT } from '../actions/auth';
 
 const initialState = {
     token: null,
     userID: null,
     isAuthToken: false,
-    isTouched: false,
 };
 
 export default (state = initialState, action) => {
@@ -15,15 +14,14 @@ export default (state = initialState, action) => {
                 token: action.token,
                 userID: action.userID,
                 isAuthToken: true,
-                isTouched: true,
-        // case LOGIN:
-        //     return {
-        //         ...state,
-        //         token: action.token,
-        //         userID: action.userID,
-        //         isAuthToken: action.isAuthToken,
-        //         isTouched: action.isTouched,
-        //     }
+            }
+        }
+        case LOGOUT: {
+            return {
+                ...state,
+                token: null,
+                userID: null,
+                isAuthToken: false,
             }
         }
     }

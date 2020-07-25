@@ -1,13 +1,17 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {
+    createDrawerNavigator,
+    DrawerContentScrollView,
+    DrawerItemList,
+    DrawerItem,
+} from '@react-navigation/drawer';
 import { useSelector, useDispatch } from 'react-redux';
 
+import * as AuthActions from '../store/actions/auth';
 import Colors from '../constants/Color/Colors';
-
 import SplashScreen from '../screens/SplashScreen';
-
 import ProductOverviewScreen from '../screens/shop/ProductOverviewScreen';
 import ProductDetailsScreen from '../screens/shop/ProductDetailsScreen';
 import CartScreen from '../screens/shop/CartScreen';
@@ -265,12 +269,34 @@ function MyUserProductsStack() {
     );
 }
 
+function CustomDrawerContent(props) {
+    const dispatch = useDispatch();
+    return (
+        <DrawerContentScrollView {...props}>
+            <DrawerItemList {...props} />
+            <DrawerItem
+                label="Logout"
+                icon={() => <Icon
+                    name='share-apple'
+                    type='evilicon'
+                    color='#517fa4'
+                    size={30}
+                />}
+                onPress={() => {
+                    dispatch(AuthActions.logOut());
+                }}
+            />
+        </DrawerContentScrollView>
+    );
+}
+
 function ShopDrawer() {
     return (
         <ShopDrawerNavigator.Navigator
             initialRouteName="Products"
             drawerPosition='left'
             drawerType='back'
+            drawerContent={props => <CustomDrawerContent {...props} />}
         >
             <ShopDrawerNavigator.Screen
                 name="Products"
@@ -308,6 +334,18 @@ function ShopDrawer() {
                     />
                 }}
             />
+            {/* <ShopDrawerNavigator.Screen
+                name="Log Out"
+                component={}
+                options={{
+                    drawerIcon: () => <Icon
+                        name='eye'
+                        type='evilicon'
+                        color='#517fa4'
+                        size={30}
+                    />
+                }}
+            /> */}
         </ShopDrawerNavigator.Navigator>
     );
 }

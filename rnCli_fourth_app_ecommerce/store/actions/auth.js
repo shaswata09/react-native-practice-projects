@@ -1,9 +1,7 @@
 import { AsyncStorage } from 'react-native';
 
-// export const SIGNUP = "SIGNUP";
-// export const LOGIN = "LOGIN";
 export const AUTHENTICATE = 'AUTHENTICATE';
-export const TOGGLE_NAVIGATION = 'TOGGLE_NAVIGATION';
+export const LOGOUT = 'LOGOUT';
 
 export const authenticate = (userID, token) => {
     return {
@@ -99,6 +97,13 @@ export const logIn = (email, password) => {
     }
 };
 
+export const logOut = () => {
+    return async dispatch => {
+        dispatch({ type: LOGOUT, });
+        removeDataFromStorage();
+    }
+}
+
 const saveDataToStorage = (token, userID, expirationTime) => {
     AsyncStorage.setItem('userData', JSON.stringify(
         {
@@ -107,4 +112,8 @@ const saveDataToStorage = (token, userID, expirationTime) => {
             expirationTime: expirationTime.toISOString(),
         }
     ));
+};
+
+const removeDataFromStorage = () => {
+    AsyncStorage.removeItem('userData');
 };
