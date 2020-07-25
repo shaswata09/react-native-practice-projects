@@ -1,4 +1,5 @@
 import React from 'react';
+import { Alert } from "react-native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import {
@@ -283,7 +284,14 @@ function CustomDrawerContent(props) {
                     size={30}
                 />}
                 onPress={() => {
-                    dispatch(AuthActions.logOut());
+                    Alert.alert("Are you sure?", "Do you really want to logout?", [
+                        { text: "No", style: "default" },
+                        {
+                            text: "Yes", style: "destructive", onPress: () => {
+                                dispatch(AuthActions.logOut())
+                            }
+                        }
+                    ]);
                 }}
             />
         </DrawerContentScrollView>
@@ -334,18 +342,6 @@ function ShopDrawer() {
                     />
                 }}
             />
-            {/* <ShopDrawerNavigator.Screen
-                name="Log Out"
-                component={}
-                options={{
-                    drawerIcon: () => <Icon
-                        name='eye'
-                        type='evilicon'
-                        color='#517fa4'
-                        size={30}
-                    />
-                }}
-            /> */}
         </ShopDrawerNavigator.Navigator>
     );
 }

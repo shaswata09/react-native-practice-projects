@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, AsyncStorage } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import Color from '../constants/Color/Colors';
@@ -24,7 +24,8 @@ export const SplashScreen = (props) => {
                     return;
                 }
 
-                dispatch(AuthActions.authenticate(userID, token));
+                const willExpireIn = expiryTime.getTime() - new Date().getTime();
+                dispatch(AuthActions.authenticate(userID, token, willExpireIn));
             }
         };
         tryLogin();
@@ -34,6 +35,13 @@ export const SplashScreen = (props) => {
     return (
         <View style={styles.screen}>
             <ActivityIndicator size='large' color={Color.Primary} />
+            <Text style={styles.splashText}>Hold it tight!</Text>
+            <Text style={{
+                fontFamily: 'OpenSans-Regular',
+                fontSize: 14
+            }}>
+                Awsomeness is getting loaded...
+            </Text>
         </View>
     );
 };
@@ -43,6 +51,11 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    splashText: {
+        marginTop: 10,
+        fontSize: 14,
+        fontFamily: 'OpenSans-Bold',
     }
 });
 
