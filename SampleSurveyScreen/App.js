@@ -56,6 +56,18 @@ return (
                   <TouchableOpacity>
                     <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
                   </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#e6e6fa" />
+                  </TouchableOpacity>
                 </View>
               </View>
               <View style={styles.separator} />
@@ -63,20 +75,46 @@ return (
             <View style={styles.sectionContainer}>
               <View>
                 <Text style={styles.sectionTitle}>Was it easy to use?</Text>
-                <Text style={styles.sectionDescription}>
-                  Edit <Text style={styles.highlight}>App.js</Text> to change this
-                  screen and then come back to see your edits.
-                </Text>
+                <View style={styles.ratingContainer}>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#e6e6fa" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#e6e6fa" />
+                  </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.separator} />
             </View>
             <View style={styles.sectionContainer}>
               <View>
                 <Text style={styles.sectionTitle}>How much do you recommend our App to your friends?</Text>
-                <Text style={styles.sectionDescription}>
-                  Edit <Text style={styles.highlight}>App.js</Text> to change this
-                  screen and then come back to see your edits.
-                </Text>
+                <View style={styles.ratingContainer}>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Star height={40} width={40} style={styles.ratingStart} fill="#e6e6fa" />
+                  </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.separator} />
             </View>
