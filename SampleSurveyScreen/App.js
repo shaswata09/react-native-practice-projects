@@ -16,122 +16,124 @@ import {
   ImageBackground,
   Button,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 
 import {
   Colors,
 } from 'react-native/Libraries/NewAppScreen';
+import Question from './src/models/Question';
 import Star from './src/assets/svg/star_rate-black-18dp.svg';
 
 
 
 const App: () => React$Node = () => {
 
-  const [surveyRatingList, setSurveyRatingList] = useState({
-    "question1": 0,
-    "question2": 0,
-    "question3": 0,
-  });
 
+  // const [surveyQuestionList, setSurveyQuestionList] = useState([
+  //   new Question('qstn01', 'How do you rate this shopping approach?', 0),
+  //   new Question('qstn02', 'Was it easy to use?', 0),
+  //   new Question('qstn03', 'How much do you recommend our App to your friends?', 0)
+  // ]);
 
-return (
-  <>
-    <View style={styles.body}>
-      <SafeAreaView>
-        <ImageBackground
-          accessibilityRole={'image'}
-          source={require('./logo.png')}
-          style={styles.background}
-          imageStyle={styles.logo}>
-          <Text style={styles.text}>How was your Experience?</Text>
-        </ImageBackground>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <View style={styles.formBody}>
-            <View style={styles.sectionContainer}>
-              <View>
-                <Text style={styles.sectionTitle}>How do you rate this shopping approach?</Text>
-                <View style={styles.ratingContainer}>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#e6e6fa" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.separator} />
-            </View>
-            <View style={styles.sectionContainer}>
-              <View>
-                <Text style={styles.sectionTitle}>Was it easy to use?</Text>
-                <View style={styles.ratingContainer}>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#e6e6fa" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#e6e6fa" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.separator} />
-            </View>
-            <View style={styles.sectionContainer}>
-              <View>
-                <Text style={styles.sectionTitle}>How much do you recommend our App to your friends?</Text>
-                <View style={styles.ratingContainer}>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#1e90ff" />
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Star height={40} width={40} style={styles.ratingStart} fill="#e6e6fa" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.separator} />
-            </View>
-          </View>
-        </ScrollView>
-        <View style={styles.parentSubmitContainer}>
-          <View style={styles.submitButtonContainer}>
-            <Button
-              title="Submit"
-            />
+  const surveyQuestionList = [];
+  surveyQuestionList.push(new Question('qstn01', 'How do you rate this shopping approach?', 0));
+  surveyQuestionList.push(new Question('qstn02', 'Was it easy to use?', 0));
+  surveyQuestionList.push(new Question('qstn03', 'How much do you recommend our App to your friends?', 0));
+
+  const [qstn1Rating, setQstn1Rating] = useState(0);
+  const [qstn2Rating, setQstn2Rating] = useState(0);
+  const [qstn3Rating, setQstn3Rating] = useState(0);
+
+  const getIndex = (qstnID) => {
+    return surveyQuestionList.findIndex(obj => obj.id === qstnID);
+  }
+
+  const onStarPress = (qstnID, starCount) => {
+    let qstnIndex = getIndex(qstnID);
+    // setSurveyQuestionList(currentQstnList => {currentQstnList[qstnIndex].ratingValue = starCount});
+    if (qstnIndex === 0) {
+      setQstn1Rating(starCount);
+    } else if (qstnIndex === 1) {
+      setQstn2Rating(starCount);
+    } else if (qstnIndex === 2) {
+      setQstn3Rating(starCount);
+    }
+    surveyQuestionList[qstnIndex].ratingValue = starCount;
+    console.log(surveyQuestionList);
+  }
+
+  const getQstnRatingState = (qstnID) => {
+      if (qstnID === 'qstn01') {
+        return qstn1Rating;
+      } else if (qstnID === 'qstn02') {
+        return qstn2Rating;
+      } else if (qstnID === 'qstn03') {
+        return qstn3Rating;
+      }
+  }
+
+  const renderFlatList = (questionData) => {
+    const qstnCurrentRating = getQstnRatingState(questionData.item.id);
+    return (
+      <View style={styles.sectionContainer}>
+        <View>
+          <Text style={styles.sectionTitle}>{questionData.item.question}</Text>
+          <View style={styles.ratingContainer}>
+            <TouchableOpacity onPress={() => onStarPress(questionData.item.id, 1)}>
+              <Star height={40} width={40} style={styles.ratingStart} fill={qstnCurrentRating >= 1 ? "#1e90ff" : "#e6e6fa"} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => onStarPress(questionData.item.id, 2)}>
+              <Star height={40} width={40} style={styles.ratingStart} fill={qstnCurrentRating >= 2 ? "#1e90ff" : "#e6e6fa"} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => onStarPress(questionData.item.id, 3)}>
+              <Star height={40} width={40} style={styles.ratingStart} fill={qstnCurrentRating >= 3 ? "#1e90ff" : "#e6e6fa"} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => onStarPress(questionData.item.id, 4)}>
+              <Star height={40} width={40} style={styles.ratingStart} fill={qstnCurrentRating >= 4 ? "#1e90ff" : "#e6e6fa"} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => onStarPress(questionData.item.id, 5)}>
+              <Star height={40} width={40} style={styles.ratingStart} fill={qstnCurrentRating >= 5 ? "#1e90ff" : "#e6e6fa"} />
+            </TouchableOpacity>
           </View>
         </View>
-      </SafeAreaView>
-    </View>
-  </>
-);
-};
+        <View style={styles.separator} />
+      </View>
+    );
+  }
+
+
+  return (
+    <>
+      <View style={styles.body}>
+        <SafeAreaView>
+          <ImageBackground
+            accessibilityRole={'image'}
+            source={require('./logo.png')}
+            style={styles.background}
+            imageStyle={styles.logo}>
+            <Text style={styles.text}>How was your Experience?</Text>
+          </ImageBackground>
+
+          <View>
+            <FlatList
+              style={styles.scrollView}
+              data={surveyQuestionList}
+              renderItem={renderFlatList}
+            />
+          </View>
+          <View style={styles.parentSubmitContainer}>
+            <View style={styles.submitButtonContainer}>
+              <Button
+                title="Submit"
+              />
+            </View>
+          </View>
+        </SafeAreaView>
+      </View>
+    </>
+  );
+}
 
 const styles = StyleSheet.create({
   body: {
@@ -164,9 +166,7 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   scrollView: {
-    height: '60%',
-  },
-  formBody: {
+    height: '65%',
     backgroundColor: Colors.white,
   },
   sectionContainer: {
