@@ -30,16 +30,16 @@ import Star from './src/assets/svg/star_rate-black-18dp.svg';
 const App: () => React$Node = () => {
 
 
-  // const [surveyQuestionList, setSurveyQuestionList] = useState([
-  //   new Question('qstn01', 'How do you rate this shopping approach?', 0),
-  //   new Question('qstn02', 'Was it easy to use?', 0),
-  //   new Question('qstn03', 'How much do you recommend our App to your friends?', 0)
-  // ]);
+  const [surveyQuestionList, setSurveyQuestionList] = useState([
+    new Question('qstn01', 'How do you rate this shopping approach?', 0),
+    new Question('qstn02', 'Was it easy to use?', 0),
+    new Question('qstn03', 'How much do you recommend our App to your friends?', 0)
+  ]);
 
-  const surveyQuestionList = [];
-  surveyQuestionList.push(new Question('qstn01', 'How do you rate this shopping approach?', 0));
-  surveyQuestionList.push(new Question('qstn02', 'Was it easy to use?', 0));
-  surveyQuestionList.push(new Question('qstn03', 'How much do you recommend our App to your friends?', 0));
+  // const surveyQuestionList = [];
+  // surveyQuestionList.push(new Question('qstn01', 'How do you rate this shopping approach?', 0));
+  // surveyQuestionList.push(new Question('qstn02', 'Was it easy to use?', 0));
+  // surveyQuestionList.push(new Question('qstn03', 'How much do you recommend our App to your friends?', 0));
 
   const [qstn1Rating, setQstn1Rating] = useState(0);
   const [qstn2Rating, setQstn2Rating] = useState(0);
