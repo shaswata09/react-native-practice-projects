@@ -45,6 +45,22 @@ const App: () => React$Node = () => {
   const [qstn2Rating, setQstn2Rating] = useState(0);
   const [qstn3Rating, setQstn3Rating] = useState(0);
 
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+
+  const checkSubmitButtonStatus = () => {
+    let surveyConfigFlag = 0;
+    
+    surveyQuestionList.forEach((item) => {
+      if(item.ratingValue > 0){
+        surveyConfigFlag = surveyConfigFlag + 1;
+      }
+    });
+
+    if (surveyConfigFlag === 3){
+      setIsSubmitDisabled(false);
+    }
+  }
+
   const getIndex = (qstnID) => {
     return surveyQuestionList.findIndex(obj => obj.id === qstnID);
   }
@@ -60,6 +76,7 @@ const App: () => React$Node = () => {
       setQstn3Rating(starCount);
     }
     surveyQuestionList[qstnIndex].ratingValue = starCount;
+    checkSubmitButtonStatus();
     console.log(surveyQuestionList);
   }
 
@@ -126,6 +143,7 @@ const App: () => React$Node = () => {
             <View style={styles.submitButtonContainer}>
               <Button
                 title="Submit"
+                disabled={isSubmitDisabled}
               />
             </View>
           </View>
